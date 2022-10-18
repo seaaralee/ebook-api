@@ -21,3 +21,23 @@ Route::get('/coba', function () {
     return 'Muti Cantik';
 });
 
+Route::get('/coba1', function(){
+    return [
+        'nama' => 'Mutia Rani Zahra Meilani',
+        'kelas' => 'XII RPL 5',
+        'nis' => 3103120153
+    ];
+});
+
+Route::get('/coba2', function(){
+    return response()->json (
+        [
+            'nama' => 'Mutia Rani Zahra Meilani',
+            'kelas' => 'XII RPL 5',
+            'nis' => 3103120153
+        ],201
+    );
+});
+
+
+
