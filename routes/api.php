@@ -22,21 +22,43 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// PUBLIC ROUTES
 Route::get('/me', [AuthController::class, 'me']);
+// -- Menggunakan Controller Manual
+Route::get('/books', [BookController::class, 'index']);
+Route::get('/books\{id}', [BookController::class, 'show']);
 
-
-// -- Menggunakan Controller MANUAL
-// Route::get('/books', [BookController::class, 'index']);
-// Route::get('/books\{id}', [BookController::class, 'show']);
+Route::get('/authors', [AuthorController::class, 'index']);
+Route::get('/authors\{id}', [AuthorController::class, 'show']);
 // Route::post('/books', [BookController::class, 'store']);
 // Route::put('/books\{id}', [BookController::class, 'update']);
 // Route::delete('/books\{id}', [BookController::class, 'destroy']);
 
-// -- Menggunakan Controller RESOURCE
-Route::resource('/books', BookController::class)->except(
-    ['create', 'edit']
-);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::resource('/authors', AuthorController::class)->except(
-    ['create', 'edit']
-);
+
+
+// -- Menggunakan Controller RESOURCE
+// Route::resource('/books', BookController::class)->except(
+//     ['create', 'edit']
+// );
+
+// Route::resource('/authors', AuthorController::class)->except(
+//     ['create', 'edit']
+// );
+
+
+// PROTECTED ROUTES
+Route::middleware('auth:sanctum')->group(function(){
+    Route::resource('/books', BookController::class)->except(
+        ['create', 'edit', 'index', 'show']
+    );
+
+    Route::resource('/authors', AuthorController::class)->except(
+        ['create', 'edit', 'index', 'show']
+    );
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+});
